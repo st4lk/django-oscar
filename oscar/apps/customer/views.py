@@ -502,7 +502,7 @@ class AddressListView(PageTitleMixin, ListView):
 
 class AddressCreateView(PageTitleMixin, CreateView):
     form_class = UserAddressForm
-    mode = UserAddress
+    model = UserAddress
     template_name = 'customer/address/address_form.html'
     active_tab = 'addresses'
     page_title = _('Add a new address')
