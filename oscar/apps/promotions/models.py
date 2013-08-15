@@ -248,7 +248,8 @@ class HandPickedProductList(AbstractProductList):
         verbose_name=_("Products"))
 
     def get_queryset(self):
-        return self.products.all().order_by('%s.display_order' % OrderedProduct._meta.db_table)
+        return self.products.base_queryset().all()\
+            .order_by('%s.display_order' % OrderedProduct._meta.db_table)
 
     def get_products(self):
         return self.get_queryset()
@@ -283,15 +284,10 @@ class AutomaticProductList(AbstractProductList):
 
     def get_queryset(self):
         Product = get_model('catalogue', 'Product')
+        qs = Product.browsable.base_queryset()
         if self.method == self.BESTSELLING:
-            return (Product.browsable.all()
-                    .select_related('stockrecord__partner')
-                    .prefetch_related('variants', 'images')
-                    .order_by('-score'))
-        return (Product.browsable.all()
-                .select_related('stockrecord__partner')
-                .prefetch_related('variants', 'images')
-                .order_by('-date_created'))
+            return (qs.order_by('-score'))
+        return (qs.order_by('-date_created'))
 
     def get_products(self):
         return self.get_queryset()[:self.num_products]
