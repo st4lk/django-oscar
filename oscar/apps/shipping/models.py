@@ -40,7 +40,7 @@ class ShippingMethod(models.Model):
 
     @property
     def is_tax_known(self):
-        return False
+        return True
 
 
 class OrderAndItemCharges(ShippingMethod):
