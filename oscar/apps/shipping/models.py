@@ -38,6 +38,10 @@ class ShippingMethod(models.Model):
     def set_basket(self, basket):
         self._basket = basket
 
+    @property
+    def is_tax_known(self):
+        return True
+
 
 class OrderAndItemCharges(ShippingMethod):
     """
